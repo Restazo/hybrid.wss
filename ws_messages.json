@@ -1,0 +1,212 @@
+{
+  "applications": {
+    "user_application": {
+      "routes": {
+        "/init": {
+          "message_payloads": {
+            "first_init": {
+              "device_id": "string",
+              "longitude": "number",
+              "latitude": "number",
+              "qr_url": "string"
+            },
+            "secondary_init": {
+              "device_id": "string",
+              "longitude": "number",
+              "latitude": "number"
+            }
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_waiter": {}
+        },
+        "/waiter": {
+          "message_payload": {
+            "device_id": "string"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_waiter": {
+            "call_id": "string",
+            "table_label": "string"
+          }
+        },
+        "/bill": {
+          "message_payload": {
+            "device_id": "string"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_waiter": {
+            "table_id": "string",
+            "table_label": "string",
+            "bill": [
+              {
+                "item_name": "string",
+                "quantity": "number"
+              }
+            ],
+            "total_price": "number",
+            "currency": "string"
+          }
+        },
+        "/order": {
+          "message_payload": {
+            "device_id": "string",
+            "order": [
+              {
+                "item_id": "string",
+                "quantity": "number"
+              }
+            ]
+          },
+          "responses_back": {
+            "success": {
+              "status": "success",
+              "order_id": "string"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_waiter": {
+            "order_id": "string",
+            "table_label": "string",
+            "order": [
+              {
+                "item_name": "string",
+                "quantity": "number"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "waiter_application": {
+      "routes": {
+        "/init": {
+          "message_payload": {
+            "access_token": "string"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success",
+              "waiter_calls": [
+                {
+                  "call_id": "string",
+                  "table_label": "string"
+                }
+              ],
+              "asked_bills": [
+                {
+                  "table_id": "string",
+                  "table_label": "string",
+                  "bill": [
+                    {
+                      "item_name": "string",
+                      "quantity": "number"
+                    }
+                  ],
+                  "total_price": "number",
+                  "currency": "string"
+                }
+              ],
+              "orders": [
+                {
+                  "order_id": "string",
+                  "table_label": "string",
+                  "order": [
+                    {
+                      "item_name": "string",
+                      "quantity": "number"
+                    }
+                  ]
+                }
+              ]
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_user": {}
+        },
+        "/accept_call": {
+          "message_payload": {
+            "access_token": "string",
+            "call_id": "string"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_user": {}
+        },
+        "/mark_bill": {
+          "message_payload": {
+            "table_id": "string",
+            "mark_as": "paid/unpaid"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_all_connected_table_user": {
+            "bill_status": "paid/unpaid"
+          }
+        },
+        "/order_action": {
+          "message_payload": {
+            "access_token": "string",
+            "order_id": "string",
+            "order_status": "accepted/denied"
+          },
+          "responses_back": {
+            "success": {
+              "status": "success"
+            },
+            "fail/error": {
+              "status": "fail/error",
+              "msg": "string"
+            }
+          },
+          "message_to_user": {
+            "order_status": "accepted/denied"
+          }
+        }
+      }
+    }
+  }
+}
